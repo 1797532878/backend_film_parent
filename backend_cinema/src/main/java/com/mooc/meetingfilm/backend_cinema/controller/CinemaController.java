@@ -8,6 +8,8 @@ import com.mooc.meetingfilm.backend_cinema.service.CinemaServiceAPI;
 import com.mooc.meetingfilm.backend_utils.common.exception.CommonServiceException;
 import com.mooc.meetingfilm.backend_utils.common.vo.BasePageVO;
 import com.mooc.meetingfilm.backend_utils.common.vo.BaseResponseVO;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,24 +56,28 @@ public class CinemaController {
         // fallback就在数据库中查询真实的影院信息
 
         // 返回一定是成功，或者业务处理失败
-        return BaseResponseVO.success();
+
+        Map<String,Object> result = Maps.newHashMap();
+        result.put("code",500);
+        result.put("message","请求处理降级返回");
+        return BaseResponseVO.success(result);
     }
 
-//    @HystrixCommand(fallbackMethod = "fallbackMethod",
-//        commandProperties = {
-//                @HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
-//                @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value= "1000"),
-//                @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
-//                @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50")
-//        },
-//        threadPoolProperties = {
-//                @HystrixProperty(name = "coreSize", value = "1"),
-//                @HystrixProperty(name = "maxQueueSize", value = "10"),
-//                @HystrixProperty(name = "keepAliveTimeMinutes", value = "1000"),
-//                @HystrixProperty(name = "queueSizeRejectionThreshold", value = "8"),
-//                @HystrixProperty(name = "metrics.rollingStats.numBuckets", value = "12"),
-//                @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds", value = "1500")
-//    },ignoreExceptions = CommonServiceException.class)
+    @HystrixCommand(fallbackMethod = "fallbackMethod",
+        commandProperties = {
+                @HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
+                @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value= "1000"),
+                @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "10"),
+                @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50")
+        },
+        threadPoolProperties = {
+                @HystrixProperty(name = "coreSize", value = "1"),
+                @HystrixProperty(name = "maxQueueSize", value = "10"),
+                @HystrixProperty(name = "keepAliveTimeMinutes", value = "1000"),
+                @HystrixProperty(name = "queueSizeRejectionThreshold", value = "8"),
+                @HystrixProperty(name = "metrics.rollingStats.numBuckets", value = "12"),
+                @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds", value = "1500")
+    },ignoreExceptions = CommonServiceException.class)
     @RequestMapping(value = "",method = RequestMethod.GET)
     public BaseResponseVO describeCinemas(BasePageVO basePageVO) throws CommonServiceException {
 
@@ -88,7 +94,8 @@ public class CinemaController {
 
         // TODO 调用封装的分页返回方法
 
-        return BaseResponseVO.success(describePageResult(describeCinemasRespVOIPage,"cinemas"));
+//        return BaseResponseVO.success(describePageResult(describeCinemasRespVOIPage,"cinemas"));
+        return BaseResponseVO.success();
     }
 
     // 获取分页对象的公共接口
