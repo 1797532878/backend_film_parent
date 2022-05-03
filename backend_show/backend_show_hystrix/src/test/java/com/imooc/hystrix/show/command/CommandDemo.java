@@ -1,8 +1,6 @@
 package com.imooc.hystrix.show.command;
 
-import com.netflix.hystrix.HystrixCommand;
-import com.netflix.hystrix.HystrixCommandGroupKey;
-import com.netflix.hystrix.HystrixCommandProperties;
+import com.netflix.hystrix.*;
 
 public class CommandDemo extends HystrixCommand<String> {
 
@@ -13,7 +11,18 @@ public class CommandDemo extends HystrixCommand<String> {
         super(Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("CommandHelloWorld"))
                 .andCommandPropertiesDefaults(
                         HystrixCommandProperties.defaultSetter()
-                                .withRequestCacheEnabled(false)));
+                                .withRequestCacheEnabled(false)
+                                .withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.SEMAPHORE)// 切换线程池隔离为信号量隔离
+                                .withExecutionIsolationSemaphoreMaxConcurrentRequests(2)
+                                .withFallbackIsolationSemaphoreMaxConcurrentRequests(2)
+//                                .withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.THREAD)
+//                ).andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("MyThreadPool"))
+//                // 线程池参数
+//                .andThreadPoolPropertiesDefaults(HystrixThreadPoolProperties.defaultSetter()
+//                    .withCoreSize(2)
+//                    .withMaximumSize(3).withAllowMaximumSizeToDivergeFromCoreSize(true)
+//                    .withMaxQueueSize(2)
+                        ));
         // 请求缓存开关
 
         this.name = name;
@@ -24,7 +33,7 @@ public class CommandDemo extends HystrixCommand<String> {
     @Override
     protected String run() throws Exception {
 
-        Thread.sleep(800l);
+//        Thread.sleep(800l);
 
         String result = "CommandHelloWorld name : " + name;
 

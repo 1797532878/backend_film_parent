@@ -148,6 +148,67 @@ public class CommandTest {
         requestContext.close();
     }
 
+    /**
+     * 演示线程池内容
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    @Test
+    public void threadPoolTest() throws ExecutionException, InterruptedException {
+        CommandDemo c1 = new CommandDemo("c1");
+        CommandDemo c2 = new CommandDemo("c2");
+        CommandDemo c3 = new CommandDemo("c3");
+        CommandDemo c4 = new CommandDemo("c4");
+        CommandDemo c5 = new CommandDemo("c5");
 
+        Future<String>  q1 = c1.queue();
+        Future<String>  q2 = c2.queue();
+        Future<String>  q3 = c3.queue();
+        Future<String>  q4 = c4.queue();
+        Future<String>  q5 = c5.queue();
+
+        String r1 = q1.get();
+        String r2 = q2.get();
+        String r3 = q3.get();
+        String r4 = q4.get();
+        String r5 = q5.get();
+
+        System.out.println("r1 = " + r1 + ",r2 = " + r2 +",r3 = " + r3 +",r4 = " + r4 +",r5 = " + r5 );
+    }
+
+    /**
+     * 演示信号量隔离
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    @Test
+    public void semTest() throws  InterruptedException {
+        MyThread t1 = new MyThread("t1");
+        MyThread t2 = new MyThread("t2");
+        MyThread t3 = new MyThread("t3");
+        MyThread t4 = new MyThread("t4");
+        MyThread t5 = new MyThread("t5");
+
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
+        t5.start();
+        Thread.sleep(2000l);
+    }
+
+    class MyThread extends Thread {
+        private String name;
+
+        public MyThread(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public void run() {
+            CommandDemo c1 = new CommandDemo(name);
+            System.out.println("CommandDemo,result = " +c1.execute());
+        }
+    }
 }
 
