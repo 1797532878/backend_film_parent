@@ -13,8 +13,11 @@ public class CommandDemo extends HystrixCommand<String> {
                         HystrixCommandProperties.defaultSetter()
                                 .withRequestCacheEnabled(false)
                                 .withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.SEMAPHORE)// 切换线程池隔离为信号量隔离
-                                .withExecutionIsolationSemaphoreMaxConcurrentRequests(2)
+                                .withExecutionIsolationSemaphoreMaxConcurrentRequests(3)
                                 .withFallbackIsolationSemaphoreMaxConcurrentRequests(2)
+//                                .withCircuitBreakerForceOpen(true)// 强制开启
+                                .withCircuitBreakerRequestVolumeThreshold(2) // 单位时间请求阈值
+                                .withCircuitBreakerErrorThresholdPercentage(50) // 满足请求阈值时，超过50%则开启熔断
 //                                .withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.THREAD)
 //                ).andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("MyThreadPool"))
 //                // 线程池参数
@@ -35,6 +38,10 @@ public class CommandDemo extends HystrixCommand<String> {
 
 //        Thread.sleep(800l);
 
+        if (name.startsWith("chenx")) {
+            int i = 6/0;
+        }
+
         String result = "CommandHelloWorld name : " + name;
 
         System.err.println(result+ ", currentThread-" + Thread.currentThread().getName());
@@ -45,5 +52,15 @@ public class CommandDemo extends HystrixCommand<String> {
     @Override
     protected String getCacheKey() {
         return String.valueOf(name);
+    }
+
+    @Override
+    protected String getFallback() {
+
+        String result = "Fallback name :" + name;
+
+        System.err.println(result + ",currentThread-" + Thread.currentThread().getName());
+
+        return result;
     }
 }

@@ -210,5 +210,37 @@ public class CommandTest {
             System.out.println("CommandDemo,result = " +c1.execute());
         }
     }
+
+    /**
+     * 熔断演示
+     */
+    @Test
+    public void CBTest() throws InterruptedException {
+        // 正确-业务
+        CommandDemo c1 = new CommandDemo("imooc");
+        System.out.println(c1.execute());
+
+        // 错误-业务
+        CommandDemo c2= new CommandDemo("chenx-1");
+        System.out.println(c2.execute());
+        Thread.sleep(500L);
+        // 正确-业务
+        CommandDemo c3 = new CommandDemo("imooc2");
+        System.out.println(c3.execute());
+
+        // 半熔断状态
+        Thread.sleep(5000L);
+//            // 错误
+//            CommandDemo c4= new CommandDemo("chenx-2");
+//            System.out.println(c4.execute());
+
+            // 正确-业务
+            CommandDemo c5 = new CommandDemo("imooc5");
+            System.out.println(c5.execute());
+
+            // 正确-业务
+            CommandDemo c6 = new CommandDemo("imooc6");
+            System.out.println(c6.execute());
+    }
 }
 
