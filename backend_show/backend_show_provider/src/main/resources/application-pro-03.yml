@@ -1,0 +1,17 @@
+logging:
+  config: classpath:logback.xml
+
+
+server:
+  port: 8203
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+#地址是eureka server 的地址
+
+#服务名
+spring:
+  application:
+    name: hello-service-provider

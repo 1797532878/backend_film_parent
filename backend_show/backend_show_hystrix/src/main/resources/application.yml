@@ -1,0 +1,11 @@
+logging:
+  config: classpath:logback.xml
+
+
+server:
+  port: 8207
+
+#服务名
+spring:
+  application:
+    name: hello-service-hystrix
