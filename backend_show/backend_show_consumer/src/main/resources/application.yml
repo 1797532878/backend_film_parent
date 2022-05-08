@@ -15,3 +15,6 @@ eureka:
 spring:
   application:
     name: hello-service-consumer
+feign:
+  hystrix:
+    enabled: true

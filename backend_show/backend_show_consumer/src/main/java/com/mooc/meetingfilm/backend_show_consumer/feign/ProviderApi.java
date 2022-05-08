@@ -8,6 +8,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "hello-service-provider",path = "/provider",primary = true
+//        ,fallback = ProviderFallBackAPIImpl.class
+        ,fallbackFactory = FallBackFactory.class
 //        url = "http://localhost:8201"
 //        ,configuration = FeignHelloConf.class
 )
