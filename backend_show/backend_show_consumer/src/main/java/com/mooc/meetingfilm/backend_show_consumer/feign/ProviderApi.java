@@ -7,7 +7,8 @@ import feign.RequestLine;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "providerTest",path = "/provider",url = "http://localhost:8201",primary = true
+@FeignClient(name = "hello-service-provider",path = "/provider",primary = true
+//        url = "http://localhost:8201"
 //        ,configuration = FeignHelloConf.class
 )
 public interface ProviderApi {
