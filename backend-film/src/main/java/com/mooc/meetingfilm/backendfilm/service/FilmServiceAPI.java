@@ -2,8 +2,8 @@ package com.mooc.meetingfilm.backendfilm.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mooc.meetingfilm.backend_utils.common.exception.CommonServiceException;
+import com.mooc.meetingfilm.backendapi.film.vo.DescribeFilmRespVO;
 import com.mooc.meetingfilm.backendfilm.controller.vo.DescribeActorsRespVO;
-import com.mooc.meetingfilm.backendfilm.controller.vo.DescribeFilmRespVO;
 import com.mooc.meetingfilm.backendfilm.controller.vo.DescribeFilmsRespVO;
 import com.mooc.meetingfilm.backendfilm.controller.vo.FilmSaveReqVO;
 

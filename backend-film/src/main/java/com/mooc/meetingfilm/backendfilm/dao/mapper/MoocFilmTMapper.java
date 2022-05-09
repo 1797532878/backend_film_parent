@@ -2,7 +2,7 @@ package com.mooc.meetingfilm.backendfilm.dao.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.mooc.meetingfilm.backendfilm.controller.vo.DescribeFilmRespVO;
+import com.mooc.meetingfilm.backendapi.film.vo.DescribeFilmRespVO;
 import com.mooc.meetingfilm.backendfilm.controller.vo.DescribeFilmsRespVO;
 import com.mooc.meetingfilm.backendfilm.dao.entity.MoocFilmT;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
